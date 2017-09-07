@@ -212,7 +212,7 @@ int Signal_ext_Init ( Tcl_Interp *interp )
   return 0;
 }
 
-int signal_Init ( Tcl_Interp *interp )
+int Signal_Init ( Tcl_Interp *interp )
 {
   return Signal_ext_Init(interp);
 }
