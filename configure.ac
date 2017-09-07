@@ -171,7 +171,7 @@ TEA_PROG_TCLSH
 # These are for tclsignalConfig.sh
 #--------------------------------------------------------------------
 
-TEA_EXPORT_CONFIG([tclsignal])
+TEA_EXPORT_CONFIG([signal])
 
 #--------------------------------------------------------------------
 # Finally, substitute all of the various values into the Makefile.

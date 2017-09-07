@@ -623,12 +623,12 @@ LIB@&t@OBJS
 PATCHLEVEL
 MINOR_VERSION
 MAJOR_VERSION
-tclsignal_STUB_LIB_PATH
-tclsignal_BUILD_STUB_LIB_PATH
-tclsignal_STUB_LIB_SPEC
-tclsignal_BUILD_STUB_LIB_SPEC
-tclsignal_LIB_SPEC
-tclsignal_BUILD_LIB_SPEC
+signal_STUB_LIB_PATH
+signal_BUILD_STUB_LIB_PATH
+signal_STUB_LIB_SPEC
+signal_BUILD_STUB_LIB_SPEC
+signal_LIB_SPEC
+signal_BUILD_LIB_SPEC
 TCLSH_PROG
 PRACTCL_NAME_LIBRARY
 PRACTCL_VC_MANIFEST_EMBED_EXE
@@ -8782,24 +8782,24 @@ $as_echo "${TCLSH_PROG}" >&6; }
 
 
     #--------------------------------------------------------------------
-    # These are for tclsignalConfig.sh
+    # These are for signalConfig.sh
     #--------------------------------------------------------------------
 
     # pkglibdir must be a fully qualified path and (not ${exec_prefix}/lib)
-    eval pkglibdir="${libdir}/tclsignal${PACKAGE_VERSION}"
+    eval pkglibdir="${libdir}/signal${PACKAGE_VERSION}"
     if test "${TCL_LIB_VERSIONS_OK}" = "ok"; then
-	eval tclsignal_LIB_FLAG="-ltclsignal${PACKAGE_VERSION}${DBGX}"
-	eval tclsignal_STUB_LIB_FLAG="-ltclsignalstub${PACKAGE_VERSION}${DBGX}"
+	eval signal_LIB_FLAG="-lsignal${PACKAGE_VERSION}${DBGX}"
+	eval signal_STUB_LIB_FLAG="-lsignalstub${PACKAGE_VERSION}${DBGX}"
     else
-	eval tclsignal_LIB_FLAG="-ltclsignal`echo ${PACKAGE_VERSION} | tr -d .`${DBGX}"
-	eval tclsignal_STUB_LIB_FLAG="-ltclsignalstub`echo ${PACKAGE_VERSION} | tr -d .`${DBGX}"
+	eval signal_LIB_FLAG="-lsignal`echo ${PACKAGE_VERSION} | tr -d .`${DBGX}"
+	eval signal_STUB_LIB_FLAG="-lsignalstub`echo ${PACKAGE_VERSION} | tr -d .`${DBGX}"
     fi
-    tclsignal_BUILD_LIB_SPEC="-L`$CYGPATH $(pwd)` ${tclsignal_LIB_FLAG}"
-    tclsignal_LIB_SPEC="-L`$CYGPATH ${pkglibdir}` ${tclsignal_LIB_FLAG}"
-    tclsignal_BUILD_STUB_LIB_SPEC="-L`$CYGPATH $(pwd)` ${tclsignal_STUB_LIB_FLAG}"
-    tclsignal_STUB_LIB_SPEC="-L`$CYGPATH ${pkglibdir}` ${tclsignal_STUB_LIB_FLAG}"
-    tclsignal_BUILD_STUB_LIB_PATH="`$CYGPATH $(pwd)`/${PKG_STUB_LIB_FILE}"
-    tclsignal_STUB_LIB_PATH="`$CYGPATH ${pkglibdir}`/${PKG_STUB_LIB_FILE}"
+    signal_BUILD_LIB_SPEC="-L`$CYGPATH $(pwd)` ${signal_LIB_FLAG}"
+    signal_LIB_SPEC="-L`$CYGPATH ${pkglibdir}` ${signal_LIB_FLAG}"
+    signal_BUILD_STUB_LIB_SPEC="-L`$CYGPATH $(pwd)` ${signal_STUB_LIB_FLAG}"
+    signal_STUB_LIB_SPEC="-L`$CYGPATH ${pkglibdir}` ${signal_STUB_LIB_FLAG}"
+    signal_BUILD_STUB_LIB_PATH="`$CYGPATH $(pwd)`/${PKG_STUB_LIB_FILE}"
+    signal_STUB_LIB_PATH="`$CYGPATH ${pkglibdir}`/${PKG_STUB_LIB_FILE}"
 
     
     
