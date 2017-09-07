@@ -1,4 +1,4 @@
-Signal Extension (package Signal) Version 1.4.0.1 available
+Signal Extension (package signal) Version 1.5.0 available
 
 See all my Tcl extensions at http://www.du.edu/~mschwart/tcl-tk.html
 http://www.nyx.net/~mschwart/signal_ext.html
@@ -11,11 +11,16 @@ is quite small and quick to load.
 Version 1.4 removes dependencies on Tk.
 Tilman Kranz (tilde@tk-sls.de) patched this for wider portability on Linux
 
+Version 1.5 cleans up the package naming
+
 A summary of the extension usage follows:
 
-Usages: 
+Requiring:
+package require signal
 
-signal add signo proc [-async]
+Usages:
+
+signal add <signo> proc [?-async?]
 
     Adds a signal handler for signal signo through proc proc.
 
@@ -27,29 +32,29 @@ signal add signo proc [-async]
 
     Signal handlers have Posix semantics--they persist until reset.
 
-    If -async is used, the signal handler is created using Tcl_AsyncCreate(). 
+    If -async is used, the signal handler is created using Tcl_AsyncCreate().
     Checks for the signal are very frequent (each evaluation) using this
     technique, but one doesn't know quite where evaluation is or how to handle
-    errors in this situation. The code will evaluate the provided procedure in 
+    errors in this situation. The code will evaluate the provided procedure in
     the current interpreter if available, and in the interpreter which added the
     signal handler otherwise. At least until a better scheme is suggested.
 
     The -async is especially useful to interrupt "runaway" procs, or to cause a
     quick exit; the default mechanism simply waits for another MainLoop cycle.
 
-signal delete signo
+signal delete <signo>
 
     Restores handling of signal signo to the default (SIG_DFL).
 
-signal print 
+signal print
 
     Prints the handling of all signals with handlers.
 
-    Formatted as  signal ----> procedure 
-    or as         signal !---> procedure 
+    Formatted as  signal ----> procedure
+    or as         signal !---> procedure
     if the signal is handled asynchronously
 
-signal print signo
+signal print <signo>
 
     Prints the procedure for handling signal signo.
 
