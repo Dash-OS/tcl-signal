@@ -17,7 +17,7 @@
 ** file handling mechanism (like XtAppAddInput in X).
 **
 **  Copyright (C) 1996 Schwartz Computer Consulting Services
-** 
+**
 **  Permission to use, copy, modify, distribute, and sell this software and its
 **  documentation for any purpose is hereby granted without fee, provided that
 **  the above copyright notice appear in all copies and that both that
@@ -27,7 +27,7 @@
 **  written prior permission.  SCCS makes no representations about the
 **  suitability of this software for any purpose.  It is provided "as is"
 **  without express or implied warranty.
-** 
+**
 *****************************************************************/
 #include <tcl.h>
 
@@ -149,7 +149,7 @@ static int signal_spec(const char *arg);
 static const char * signal_name(int i);
 
 /*
-** A pair of ints for a pipe between the signal handler and the 
+** A pair of ints for a pipe between the signal handler and the
 ** X main loop
 ** To support multiple interpreters, these should probably be associated
 ** with the interpreter, and not with the program as a whole.
@@ -167,13 +167,13 @@ static int handle_async (ClientData clientData, Tcl_Interp *interp, int code);
 static void HandleSignalPipe (ClientData d, int mask);
 
 /* Tcl_CmdProc declaration(s) */
-static int DoSignalHandler (ClientData d, Tcl_Interp *i, 
+static int DoSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, const char *argv[]);
-static int AddSignalHandler (ClientData d, Tcl_Interp *i, 
+static int AddSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[]);
-static int DeleteSignalHandler (ClientData d, Tcl_Interp *i, 
+static int DeleteSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[]);
-static int PrintSignalHandler (ClientData d, Tcl_Interp *i, 
+static int PrintSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[]);
 
 /**
@@ -201,7 +201,7 @@ int Signal_ext_Init ( Tcl_Interp *interp )
     pipe(fds);
 
     /* Create a Tcl-compliant handler for the pipe */
-    Tcl_CreateFileHandler(fds[0], TCL_READABLE, HandleSignalPipe, 
+    Tcl_CreateFileHandler(fds[0], TCL_READABLE, HandleSignalPipe,
                          (ClientData)interp);
 
     /* Add the signal command */
@@ -212,7 +212,7 @@ int Signal_ext_Init ( Tcl_Interp *interp )
   return 0;
 }
 
-int Signal_Init ( Tcl_Interp *interp )
+int signal_Init ( Tcl_Interp *interp )
 {
   return Signal_ext_Init(interp);
 }
@@ -257,7 +257,7 @@ static char Usage[] = "Usage: signal add signo proc [-async]| "
                       "signal print [signo] | "
 		      "signal version";
 
-static int DoSignalHandler (ClientData d, Tcl_Interp *i, 
+static int DoSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, const char *argvv[])
 {
   char** argv = (char**)argvv;
@@ -286,7 +286,7 @@ static int DoSignalHandler (ClientData d, Tcl_Interp *i,
   }
 }
 
-static int AddSignalHandler (ClientData d, Tcl_Interp *i, 
+static int AddSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[])
 {
   int sig;
@@ -301,7 +301,7 @@ static int AddSignalHandler (ClientData d, Tcl_Interp *i,
     Tcl_SetResult (i, "Usage: signal add signo proc [-async]", TCL_STATIC);
     return TCL_ERROR;
   }
-  
+
   sig = signal_spec(argv[1]);
   procname = argv[2];
   if ( sig <= 0 || sig > NSIG )
@@ -345,7 +345,7 @@ static int AddSignalHandler (ClientData d, Tcl_Interp *i,
   {
     sa.sa_handler = handle_sig;
   }
-  
+
   if ( sigaction (sig, &sa, 0) == -1 )
   {
     Tcl_AppendResult(i, "Error in sigaction: ", strerror(errno), 0);
@@ -355,11 +355,11 @@ static int AddSignalHandler (ClientData d, Tcl_Interp *i,
   /* Remember we're handling it */
   signal_handlers[sig].is_handled = 1;
   signal_handlers[sig].is_async   = async;
-  
+
   return TCL_OK;
 }
 
-static int DeleteSignalHandler (ClientData d, Tcl_Interp *i, 
+static int DeleteSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[])
 {
   int sig;
@@ -399,13 +399,13 @@ static int DeleteSignalHandler (ClientData d, Tcl_Interp *i,
 
   /* Zero out the process name in the structure */
   signal_handlers[sig].signal_proc = 0;
-  
+
   /* Remember we're not handling it */
   signal_handlers[sig].is_handled = 0;
   return TCL_OK;
 }
 
-static int PrintSignalHandler (ClientData d, Tcl_Interp *i, 
+static int PrintSignalHandler (ClientData d, Tcl_Interp *i,
 				int argc, char *argv[])
 {
   int sig;
@@ -442,12 +442,12 @@ static int PrintSignalHandler (ClientData d, Tcl_Interp *i,
 
   /* Just 1 signal */
   sig = signal_spec(argv[1]);
-  
+
   if ( sig > 0 && sig < NSIG )
   {
     if ( signal_handlers[sig].is_handled == 0 )
       command = "UNHANDLED";
-    else if ( (command = signal_handlers[sig].signal_proc ) == 0 || 
+    else if ( (command = signal_handlers[sig].signal_proc ) == 0 ||
 	       command[0] == '\0')
       command = " ";
     Tcl_SetResult (i, command, 0);
@@ -470,11 +470,11 @@ static void handle_sig(int signo)
 /* An async proc handler */
 static int handle_async (ClientData clientData, Tcl_Interp *i, int code)
 {
-  /* There is a fundamental difficulty in that usually there seems to 
+  /* There is a fundamental difficulty in that usually there seems to
      be no interpreter available when this function is called.
      This means that scripts will generally not be invoked if they depend
      on the interp variable passed in.
-     The choices are 
+     The choices are
      (a) to allow only a few things to happen in an async handler,
          e.g., exit or raise an error
      (b) use the interpreter that was active when the handler was created
@@ -501,7 +501,7 @@ static int handle_async (ClientData clientData, Tcl_Interp *i, int code)
     interp = signal_handlers[sig].save_interp;
 
   Tcl_DStringInit(&result);
-  
+
   if (interp)
   {
     /* Save result, errorInfo and errorCode for the given interpreter */
@@ -512,7 +512,7 @@ static int handle_async (ClientData clientData, Tcl_Interp *i, int code)
 
   if (interp && signal_handlers[sig].signal_proc)
   {
-    if ((tcode = Tcl_Eval(interp, signal_handlers[sig].signal_proc)) 
+    if ((tcode = Tcl_Eval(interp, signal_handlers[sig].signal_proc))
         != TCL_OK )
     {
       /* A means is provided to allow the called routine to raise
@@ -541,7 +541,7 @@ static int handle_async (ClientData clientData, Tcl_Interp *i, int code)
     free(errorcode);
     free(errorinfo);
   }
-    
+
   return code;
 }
 
@@ -549,7 +549,7 @@ static void handle_async_signal (int sig)
 {
   if (signal_handlers[sig].is_handled &&
       signal_handlers[sig].signal_proc &&
-      signal_handlers[sig].is_async ) 
+      signal_handlers[sig].is_async )
     Tcl_AsyncMark(signal_handlers[sig].async);
 }
 
@@ -559,8 +559,8 @@ static const char *signo_to_signame(int signo)
   int i;
   if (signo <= 0 || signo > NSIG )
     return 0;
-    
-  for (i=0; i < sizeof(signal_name_mapping) / sizeof(signal_name_mapping[0]); 
+
+  for (i=0; i < sizeof(signal_name_mapping) / sizeof(signal_name_mapping[0]);
 	i++)
   {
     if ( signal_name_mapping[i].signum == signo )
@@ -574,7 +574,7 @@ static int signame_to_signo(const char *signame)
   int i;
   if (signame == 0)
     return -1;
-  for (i=0; i < sizeof(signal_name_mapping) / sizeof(signal_name_mapping[0]); 
+  for (i=0; i < sizeof(signal_name_mapping) / sizeof(signal_name_mapping[0]);
 	i++)
   {
     /* Note: strcasecmp is a commonly implemented non-standard function */
@@ -605,4 +605,3 @@ static const char *signal_name(int i)
   sprintf(tmp_sig_name, "Signal %d", i);
   return tmp_sig_name;
 }
-
